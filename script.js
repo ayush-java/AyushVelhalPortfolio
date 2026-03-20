@@ -558,32 +558,33 @@ function setupFormHandling() {
     });
     
     // Form submission
-    form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        
+    form.addEventListener('submit', () => {
         const submitBtn = form.querySelector('.form-submit');
-        const originalText = submitBtn.innerHTML;
-        
+
         submitBtn.innerHTML = '<span>Sending...</span><i class="fas fa-spinner fa-spin"></i>';
         submitBtn.disabled = true;
-        
-        // Simulate form submission
-        setTimeout(() => {
-            submitBtn.innerHTML = '<span>Message Sent!</span><i class="fas fa-check"></i>';
-            submitBtn.style.background = 'var(--success-color)';
-            
-            setTimeout(() => {
-                submitBtn.innerHTML = originalText;
-                submitBtn.disabled = false;
-                submitBtn.style.background = '';
-                form.reset();
-                inputs.forEach(input => {
-                    input.parentElement.classList.remove('focused');
-                });
-            }, 2000);
-        }, 2000);
+
+        // Let Formspree handle submission
     });
 }
+
+    // Form submission
+    // Form submission
+    form.addEventListener('submit', () => {
+        const submitBtn = form.querySelector('.form-submit');
+
+        submitBtn.innerHTML = '<span>Sending...</span><i class="fas fa-spinner fa-spin"></i>';
+        submitBtn.disabled = true;
+
+        // Let Formspree handle submission
+    });
+        
+        
+        
+        // Simulate form submission
+        
+    
+
 
 // Scroll Effects
 function setupScrollEffects() {
