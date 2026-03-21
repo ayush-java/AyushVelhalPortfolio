@@ -286,10 +286,9 @@
                 
                 <div class="projects-filter">
                     <button class="filter-btn active" data-filter="all">All</button>
-                    <button class="filter-btn" data-filter="ai">AI/ML</button>
+                    <button class="filter-btn" data-filter="ai-fullstack">AI/ML + Full Stack</button>
                     <button class="filter-btn" data-filter="cloud">Cloud</button>
                     <button class="filter-btn" data-filter="security">Cybersecurity</button>
-                    <button class="filter-btn" data-filter="fullstack">Full Stack</button>
                 </div>
                 
                 <div class="projects-subfilter" id="projectsCloudSubfilter" style="display: none;">
@@ -298,28 +297,7 @@
                 </div>
                 
                 <div class="projects-grid">
-                    <div class="project-card" data-category="ai">
-                        <div class="project-image" style="background-image: url('TarkAI.jpeg'); background-size: cover; background-position: center;">
-                            <div class="project-overlay">
-                                <div class="project-links">
-                                    <a href="https://www.youtube.com/watch?v=ULDonbj5Z2w" target="_blank" class="project-link"><i class="fas fa-external-link-alt"></i></a>
-                                    <a href="https://github.com/ayush-java/TarkAI-2025" target="_blank" class="project-link"><i class="fab fa-github"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="project-content">
-                            <h3 class="project-title">TarkAI - 2nd Place HackAI Winner</h3>
-                            <p class="project-description">AI-powered tool that helps students quickly understand long PDF company reports. Processes annual reports, extracts key information like risks and financials, and explains them in simple terms. Won 2nd place at HackAI (LTI Mindtree sponsored) and earned an interview opportunity.</p>
-                            <div class="project-tech">
-                                <span class="tech-tag">Python</span>
-                                <span class="tech-tag">Streamlit</span>
-                                <span class="tech-tag">AI/ML</span>
-                                <span class="tech-tag">PDF Processing</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="project-card" data-category="fullstack">
+                    <div class="project-card" data-category="ai-fullstack">
                         <div class="project-image" style="background-image: url('Projects/FullStack/ResumeScanner/ResumeScanner.png'); background-size: cover; background-position: center;">
                             <div class="project-overlay">
                                 <div class="project-links">
@@ -329,12 +307,62 @@
                         </div>
                         <div class="project-content">
                             <h3 class="project-title">ResumeScanner</h3>
-                            <p class="project-description">AI-powered resume analyzer and ATS optimization tool. Generates resume scores, identifies missing keywords, and improves resumes using AI. Built with React, Node.js, and OpenAI API for real-world job preparation.</p>
+                            <p style="margin-top: 0.5rem; margin-bottom: 0.35rem;">
+                                <a href="https://ai-resume-scanner-frontend.vercel.app/" target="_blank">Live Demo (AI Resume Scanner)</a>
+                            </p>
+                            <p style="margin-top: 0.25rem; margin-bottom: 0.75rem;">
+                                <a href="https://www.loom.com/share/cfdde73136f54494a8dc6efc97af6518" target="_blank">Recorded Demo</a>
+                            </p>
+                            <p class="project-description">ResumeScanner is an end-to-end, AI-powered resume analysis platform that evaluates PDF resumes against modern Applicant Tracking Systems (ATS) and specific job descriptions. It computes a detailed ATS score with breakdowns across skills, experience, projects, and keyword density, then performs role-based keyword matching to highlight gaps and missing terminology. Using the OpenAI GPT-4o API, it generates targeted bullet-point improvements, offers full resume rewrites aligned to a given JD, and calculates job-match alignment as a percentage with clear, actionable recommendations. Users receive a downloadable report and improved resume, while a persistent scan history enables tracking of profile iterations and progress over time. The system is built with React (Vite, TypeScript, Tailwind, Framer Motion) on the frontend and a Node.js/Express backend leveraging Multer and pdf-parse for file ingestion, secured with CORS and Helmet, instrumented with Morgan for request logging, and deployed as a production-ready stack across Vercel (frontend) and Render (backend).</p>
                             <div class="project-tech">
                                 <span class="tech-tag">React</span>
                                 <span class="tech-tag">Node.js</span>
+                                <span class="tech-tag">Express.js</span>
+                                <span class="tech-tag">TypeScript</span>
+                                <span class="tech-tag">REST APIs</span>
                                 <span class="tech-tag">OpenAI API</span>
+                                <span class="tech-tag">Prompt Engineering</span>
+                                <span class="tech-tag">PDF Parsing</span>
+                                <span class="tech-tag">Multer</span>
+                                <span class="tech-tag">Tailwind CSS</span>
+                                <span class="tech-tag">Framer Motion</span>
                                 <span class="tech-tag">ATS Optimization</span>
+                                <span class="tech-tag">Keyword Matching Algorithms</span>
+                                <span class="tech-tag">Full-Stack Development</span>
+                                <span class="tech-tag">Vercel</span>
+                                <span class="tech-tag">Render</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card" data-category="ai-fullstack">
+                        <div class="project-image" style="background-image: url('TarkAI.jpeg'); background-size: cover; background-position: center;">
+                            <div class="project-overlay">
+                                <div class="project-links">
+                                    <a href="https://github.com/ayush-java/TarkAI-2025" target="_blank" class="project-link"><i class="fab fa-github"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">TarkAI - 2nd Place HackAI Winner</h3>
+                            <p style="margin-top: 0.5rem; margin-bottom: 0.75rem;">
+                                <a href="https://www.youtube.com/watch?v=ULDonbj5Z2w" target="_blank">Recorded Demo</a>
+                            </p>
+                            <p class="project-description">TarkAI is an AI-powered document intelligence platform that helps students, analysts, and investors quickly understand complex company reports and annual filings. It ingests large PDF documents and automatically extracts high‑value sections such as risk factors, financial statements, and business overviews, reorganizing them into a navigable, structured view. On top of this, TarkAI applies NLP and LLM-based summarization to convert dense financial and technical language into concise, human‑readable explanations, significantly reducing the time required for due diligence and research. Users interact through an intuitive Streamlit interface where they can upload reports and immediately receive sectioned insights, targeted summaries, and key takeaways for faster decision‑making. I led the end‑to‑end design, implementation, and presentation of the system, and our team project earned 2nd place at HackAI (LTI Mindtree–sponsored hackathon), resulting in a follow‑up interview opportunity. The solution is built with Python, Streamlit, and PDF processing libraries tailored for large‑scale document analysis.</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">Python</span>
+                                <span class="tech-tag">Streamlit</span>
+                                <span class="tech-tag">AI/ML</span>
+                                <span class="tech-tag">PDF Processing</span>
+                                <span class="tech-tag">Natural Language Processing</span>
+                                <span class="tech-tag">OpenAI API</span>
+                                <span class="tech-tag">Prompt Engineering</span>
+                                <span class="tech-tag">Text Summarization</span>
+                                <span class="tech-tag">Data Extraction</span>
+                                <span class="tech-tag">User Interface Design</span>
+                                <span class="tech-tag">AI-Powered Analytics</span>
+                                <span class="tech-tag">Document Parsing</span>
+                                <span class="tech-tag">Team Collaboration</span>
                             </div>
                         </div>
                     </div>
