@@ -845,6 +845,12 @@
                         action="https://formspree.io/f/mwvryjgk" 
                         method="POST"
                     >
+                            <!-- Honeypot field for bots (hidden) -->
+                            <div class="form-group honeypot-group" style="display: none;">
+                                <input type="text" id="bot-field" name="bot-field" autocomplete="off">
+                                <label for="bot-field">Leave this field empty</label>
+                            </div>
+
                             <div class="form-group">
                                 <input type="text" id="name" name="name" required>
                                 <label for="name">Your Name</label>
@@ -864,6 +870,9 @@
                                 <textarea id="message" name="message" rows="5" required></textarea>
                                 <label for="message">Your Message</label>
                             </div>
+
+                            <!-- Global form status message -->
+                            <div id="form-status" class="form-status" style="display: none;"></div>
 
                             <input type="hidden" name="_subject" value="New message from portfolio">
                             <input type="hidden" name="_next" value="https://ayush-velhal-portfolio.vercel.app/">

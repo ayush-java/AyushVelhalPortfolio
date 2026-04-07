@@ -537,53 +537,263 @@ function animateCounter(element) {
 // Form Handling
 function setupFormHandling() {
     const form = document.getElementById('contact-form');
+    if (!form) return;
+
     const inputs = form.querySelectorAll('input, textarea');
-    
+    const submitBtn = form.querySelector('.form-submit');
+    const formStatus = document.getElementById('form-status');
+    const honeypot = form.querySelector('input[name="bot-field"]');
+
+    const allowedDomains = [
+        'gmail.com',
+        'outlook.com',
+        'hotmail.com',
+        'live.com',
+        'msn.com',
+        'yahoo.com',
+        'yahoo.co.in',
+        'icloud.com',
+        'me.com',
+        'aol.com',
+        'proton.me',
+        'protonmail.com',
+        'gmx.com',
+        'zoho.com'
+    ];
+
+    const spamKeywords = [
+        'viagra',
+        'casino',
+        'porn',
+        'sex',
+        'xxx',
+        'loan',
+        'crypto',
+        'btc',
+        'bitcoin',
+        'free money',
+        'buy now',
+        'click here',
+        'http://',
+        'https://'
+    ];
+
+    function showFieldError(input, message) {
+        if (!input) return;
+        const group = input.parentElement;
+        if (!group) return;
+        let errorEl = group.querySelector('.form-error-message');
+        if (!errorEl) {
+            errorEl = document.createElement('p');
+            errorEl.className = 'form-error-message';
+            group.appendChild(errorEl);
+        }
+        errorEl.textContent = message;
+        input.classList.add('input-error');
+    }
+
+    function clearFieldError(input) {
+        if (!input) return;
+        const group = input.parentElement;
+        if (!group) return;
+        const errorEl = group.querySelector('.form-error-message');
+        if (errorEl) {
+            errorEl.textContent = '';
+        }
+        input.classList.remove('input-error');
+    }
+
+    function setFormStatus(message, type) {
+        if (!formStatus) return;
+        formStatus.textContent = message;
+        formStatus.style.display = message ? 'block' : 'none';
+        formStatus.classList.remove('success', 'error');
+        if (type) {
+            formStatus.classList.add(type);
+        }
+    }
+
+    function validateEmailFormat(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+    }
+
+    function isAllowedEmailDomain(email) {
+        const atIndex = email.lastIndexOf('@');
+        if (atIndex === -1) return false;
+        const domain = email.slice(atIndex + 1).toLowerCase();
+        if (!domain) return false;
+        if (allowedDomains.includes(domain)) return true;
+        if (domain.endsWith('.edu')) return true;
+        return false;
+    }
+
+    function containsSpam(text) {
+        const lower = text.toLowerCase();
+        return spamKeywords.some(keyword => lower.includes(keyword));
+    }
+
+    function checkAndUpdateRateLimit() {
+        if (typeof window === 'undefined') return true;
+        const key = 'contactFormSubmissions';
+        const now = Date.now();
+        let timestamps = [];
+
+        try {
+            const stored = window.localStorage.getItem(key);
+            if (stored) {
+                timestamps = JSON.parse(stored);
+            }
+        } catch (e) {
+            // ignore parse errors
+        }
+
+        // keep only last 60 seconds
+        timestamps = timestamps.filter(t => now - t < 60000);
+
+        if (timestamps.length >= 3) {
+            window.localStorage.setItem(key, JSON.stringify(timestamps));
+            return false;
+        }
+
+        timestamps.push(now);
+        window.localStorage.setItem(key, JSON.stringify(timestamps));
+        return true;
+    }
+
     // Floating labels
     inputs.forEach(input => {
         input.addEventListener('focus', () => {
-            input.parentElement.classList.add('focused');
+            if (input.parentElement) {
+                input.parentElement.classList.add('focused');
+            }
         });
         
         input.addEventListener('blur', () => {
-            if (!input.value) {
+            if (!input.value && input.parentElement) {
                 input.parentElement.classList.remove('focused');
             }
         });
         
         // Check if already has value
-        if (input.value) {
+        if (input.value && input.parentElement) {
             input.parentElement.classList.add('focused');
         }
-    });
-    
-    // Form submission
-    form.addEventListener('submit', () => {
-        const submitBtn = form.querySelector('.form-submit');
 
+        // Clear error on input
+        input.addEventListener('input', () => {
+            clearFieldError(input);
+            setFormStatus('', '');
+        });
+    });
+
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        if (!submitBtn) return;
+
+        // Honeypot: if filled, silently block
+        if (honeypot && honeypot.value.trim() !== '') {
+            return;
+        }
+
+        setFormStatus('', '');
+
+        const nameInput = document.getElementById('name');
+        const emailInput = document.getElementById('email');
+        const messageInput = document.getElementById('message');
+
+        // Clear previous errors
+        [nameInput, emailInput, messageInput].forEach(inp => clearFieldError(inp));
+
+        let hasError = false;
+
+        // Name validation
+        if (!nameInput || !nameInput.value.trim()) {
+            showFieldError(nameInput, 'Name is required.');
+            hasError = true;
+        } else if (nameInput.value.trim().length < 2) {
+            showFieldError(nameInput, 'Name must be at least 2 characters.');
+            hasError = true;
+        }
+
+        // Email validation
+        if (!emailInput || !emailInput.value.trim()) {
+            showFieldError(emailInput, 'Email is required.');
+            hasError = true;
+        } else {
+            const email = emailInput.value.trim();
+            if (!validateEmailFormat(email)) {
+                showFieldError(emailInput, 'Please enter a valid email address.');
+                hasError = true;
+            } else if (!isAllowedEmailDomain(email)) {
+                showFieldError(emailInput, 'Please use a valid email provider (Gmail, Outlook, Yahoo, .edu, etc.).');
+                hasError = true;
+            }
+        }
+
+        // Message validation
+        if (!messageInput || !messageInput.value.trim()) {
+            showFieldError(messageInput, 'Message is required.');
+            hasError = true;
+        } else {
+            const msg = messageInput.value.trim();
+            if (msg.length < 10) {
+                showFieldError(messageInput, 'Message must be at least 10 characters.');
+                hasError = true;
+            } else if (containsSpam(msg)) {
+                showFieldError(messageInput, 'Your message looks like spam. Please revise and try again.');
+                hasError = true;
+            }
+        }
+
+        if (hasError) {
+            return;
+        }
+
+        // Rate limiting
+        if (!checkAndUpdateRateLimit()) {
+            setFormStatus('You have reached the submission limit. Please wait a minute and try again.', 'error');
+            return;
+        }
+
+        // Prepare to submit
+        const originalBtnHtml = submitBtn.innerHTML;
         submitBtn.innerHTML = '<span>Sending...</span><i class="fas fa-spinner fa-spin"></i>';
         submitBtn.disabled = true;
 
-        // Let Formspree handle submission
+        const formData = new FormData(form);
+
+        try {
+            const response = await fetch(form.action, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json'
+                },
+                body: formData
+            });
+
+            if (response.ok) {
+                setFormStatus('Thank you! Your message has been sent.', 'success');
+                form.reset();
+                inputs.forEach(input => {
+                    if (input.parentElement) {
+                        input.parentElement.classList.remove('focused');
+                    }
+                    clearFieldError(input);
+                });
+
+            } else {
+                setFormStatus('Something went wrong while sending your message. Please try again later.', 'error');
+            }
+        } catch (error) {
+            setFormStatus('Network error while sending your message. Please try again later.', 'error');
+        } finally {
+            submitBtn.innerHTML = originalBtnHtml;
+            submitBtn.disabled = false;
+        }
     });
 }
-
-    // Form submission
-    // Form submission
-    form.addEventListener('submit', () => {
-        const submitBtn = form.querySelector('.form-submit');
-
-        submitBtn.innerHTML = '<span>Sending...</span><i class="fas fa-spinner fa-spin"></i>';
-        submitBtn.disabled = true;
-
-        // Let Formspree handle submission
-    });
-        
-        
-        
-        // Simulate form submission
-        
-    
 
 
 // Scroll Effects
