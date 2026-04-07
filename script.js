@@ -578,6 +578,23 @@ function setupFormHandling() {
         'https://'
     ];
 
+    // Offensive language roots and patterns (edit and expand as needed)
+    // Put short "root" fragments here; detection is substring-based on normalized text.
+    const offensiveRoots = [
+        'idiot',
+        'stupid',
+        'dumb',
+        'moron',
+        'loser',
+        'trash'
+        // Add more blocked roots here (e.g., abusive terms you want to forbid)
+    ];
+
+    // Optional: custom regex patterns for additional detection on the raw message text.
+    // Example usage (fill in your own patterns):
+    // const offensiveRegexes = [new RegExp('your-pattern-here', 'i')];
+    const offensiveRegexes = [];
+
     function showFieldError(input, message) {
         if (!input) return;
         const group = input.parentElement;
@@ -633,6 +650,68 @@ function setupFormHandling() {
         return spamKeywords.some(keyword => lower.includes(keyword));
     }
 
+    // Normalize text for offensive language detection
+    // - lowercase
+    // - replace common substitutions (@,$,1,3,0)
+    // - remove spaces, dots, and all non-letter characters
+    function normalizeText(text) {
+        if (!text) return '';
+        let normalized = text.toLowerCase();
+
+        const substitutions = {
+            '1': 'i',
+            '3': 'e',
+            '@': 'a',
+            '$': 's',
+            '0': 'o'
+        };
+
+        // First replace known leet-style substitutions
+        normalized = normalized.replace(/[@$130]/g, (ch) => substitutions[ch] || '');
+        // Then strip everything except a–z (removes spaces, dots, symbols, remaining digits)
+        normalized = normalized.replace(/[^a-z]/g, '');
+        return normalized;
+    }
+
+    // Main offensive language detector
+    function containsOffensiveContent(text) {
+        const raw = text || '';
+        const normalized = normalizeText(raw);
+        if (!normalized) return false;
+
+        // Root-based substring detection on normalized text
+        if (offensiveRoots.some(root => normalized.includes(root))) {
+            return true;
+        }
+
+        // Optional regex-based detection on raw text (patterns go into offensiveRegexes)
+        if (offensiveRegexes.length > 0) {
+            return offensiveRegexes.some((regex) => regex.test(raw));
+        }
+
+        return false;
+    }
+
+    function enforceProfanityRulesOnMessage(messageInputEl) {
+        if (!messageInputEl) return;
+
+        const value = messageInputEl.value || '';
+        if (containsOffensiveContent(value)) {
+            showFieldError(messageInputEl, 'Inappropriate language is not allowed.');
+            if (submitBtn) {
+                submitBtn.disabled = true;
+            }
+        } else {
+            // Only re-enable if there is no other error text on the field
+            const group = messageInputEl.parentElement;
+            const errorEl = group ? group.querySelector('.form-error-message') : null;
+            const hasErrorText = errorEl && errorEl.textContent && errorEl.textContent.trim().length > 0;
+            if (submitBtn && !hasErrorText) {
+                submitBtn.disabled = false;
+            }
+        }
+    }
+
     function checkAndUpdateRateLimit() {
         if (typeof window === 'undefined') return true;
         const key = 'contactFormSubmissions';
@@ -684,6 +763,10 @@ function setupFormHandling() {
         input.addEventListener('input', () => {
             clearFieldError(input);
             setFormStatus('', '');
+
+            if (input.id === 'message') {
+                enforceProfanityRulesOnMessage(input);
+            }
         });
     });
 
@@ -738,7 +821,13 @@ function setupFormHandling() {
             hasError = true;
         } else {
             const msg = messageInput.value.trim();
-            if (msg.length < 10) {
+            if (containsOffensiveContent(msg)) {
+                showFieldError(messageInput, 'Inappropriate language is not allowed.');
+                hasError = true;
+                if (submitBtn) {
+                    submitBtn.disabled = true;
+                }
+            } else if (msg.length < 10) {
                 showFieldError(messageInput, 'Message must be at least 10 characters.');
                 hasError = true;
             } else if (containsSpam(msg)) {
