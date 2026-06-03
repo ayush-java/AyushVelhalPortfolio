@@ -140,6 +140,7 @@ function initializeWebsite() {
     setupMobileMenu();
     setupProjectFilters();
     setupProjectModal();
+    setupResumeFilters();
     setupCertificationFilters();
     setupSkillBars();
     setupStatsCounter();
@@ -1442,6 +1443,67 @@ function startAIChatAnimations() {
     if (!document.getElementById('chatMessages').hasChildNodes()) {
         initializeAIChat();
     }
+}
+
+// Resume data
+const resumes = [
+    {
+        id: 'cybersecurity',
+        title: 'Cybersecurity Resume',
+        icon: 'fas fa-shield-alt',
+        pdf: 'Resumes/AyushVelhal_CybersecurityResumeJune.pdf',
+        track: 'Cybersecurity Resume',
+        updated: 'Updated June 2026'
+    },
+    {
+        id: 'software',
+        title: 'Software Engineer Resume',
+        icon: 'fas fa-code',
+        pdf: 'Resumes/SWE Resume - Ayush Velhal.pdf',
+        track: 'Software Engineer Resume',
+        updated: 'Updated June 2026'
+    }
+];
+
+function setupResumeFilters() {
+    const filterBtns = document.querySelectorAll('.resume-filter-btn');
+    if (!filterBtns.length) return;
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const id = btn.getAttribute('data-resume');
+            switchResume(id);
+        });
+    });
+}
+
+function switchResume(id) {
+    const resume = resumes.find(r => r.id === id);
+    if (!resume) return;
+
+    const embed = document.getElementById('resumeEmbed');
+    const dlBtn = document.getElementById('resumeDownloadBtn');
+    const titleEl = document.getElementById('resumeViewerTitle');
+    const trackEl = document.getElementById('quickInfoTrack');
+    const dateEl = document.getElementById('quickInfoDate');
+
+    if (embed) {
+        embed.style.opacity = '0';
+        embed.style.transition = 'opacity 0.25s ease';
+        setTimeout(() => {
+            embed.src = resume.pdf;
+            embed.style.opacity = '1';
+        }, 200);
+    }
+    if (dlBtn) {
+        dlBtn.href = resume.pdf;
+        dlBtn.setAttribute('download', '');
+    }
+    if (titleEl) titleEl.innerHTML = `<i class="${resume.icon}"></i> ${resume.title}`;
+    if (trackEl) trackEl.textContent = resume.track;
+    if (dateEl) dateEl.textContent = resume.updated;
 }
 
 function startResumeAnimations() {

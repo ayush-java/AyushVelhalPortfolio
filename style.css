@@ -1765,11 +1765,86 @@ input, textarea, select {
 }
 
 /* Resume Section */
+/* ===== RESUME FILTER BAR ===== */
+
+.resume-filter-bar {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+
+.resume-filter-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.65rem 1.5rem;
+    border-radius: 50px;
+    border: 1.5px solid rgba(139, 92, 246, 0.4);
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    font-family: inherit;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.resume-filter-btn:hover {
+    border-color: var(--primary-color);
+    color: var(--text-primary);
+    background: rgba(139, 92, 246, 0.08);
+}
+
+.resume-filter-btn.active {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border-color: transparent;
+    color: #fff;
+    box-shadow: 0 4px 18px rgba(139, 92, 246, 0.35);
+}
+
+.resume-viewer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    background: var(--bg-tertiary);
+    border-bottom: 1px solid var(--glass-border);
+    border-radius: 20px 20px 0 0;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.resume-viewer-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.resume-viewer-title i {
+    color: var(--primary-color);
+}
+
+.resume-dl-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+
+/* ===== END RESUME FILTER BAR ===== */
+
 .resume-content {
     display: grid;
     grid-template-columns: 2fr 1fr;
     gap: 2rem;
-    margin-top: 2rem;
+    margin-top: 1.5rem;
 }
 
 .resume-viewer {
@@ -2375,6 +2450,25 @@ input, textarea, select {
         justify-content: center;
     }
     
+    .resume-filter-bar {
+        gap: 0.5rem;
+    }
+
+    .resume-filter-btn {
+        padding: 0.55rem 1.1rem;
+        font-size: 0.88rem;
+    }
+
+    .resume-viewer-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .resume-dl-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
     .resume-content {
         grid-template-columns: 1fr;
     }

@@ -892,14 +892,32 @@
             <div class="container">
                 <div class="section-header">
                     <h2 class="section-title">Resume</h2>
-                    <p class="section-subtitle">Download or view my complete professional resume</p>
+                    <p class="section-subtitle">Select a resume track to view and download</p>
                 </div>
-                
+
+                <!-- Resume Category Filter -->
+                <div class="resume-filter-bar">
+                    <button class="resume-filter-btn active" data-resume="cybersecurity">
+                        <i class="fas fa-shield-alt"></i> Cybersecurity
+                    </button>
+                    <button class="resume-filter-btn" data-resume="software">
+                        <i class="fas fa-code"></i> Software Engineer
+                    </button>
+                </div>
+
                 <div class="resume-content">
                     <div class="resume-viewer">
-                        <embed src="Ayush Velhal Resume.pdf" type="application/pdf" width="100%" height="800px" />
+                        <div class="resume-viewer-header">
+                            <span id="resumeViewerTitle" class="resume-viewer-title">
+                                <i class="fas fa-shield-alt"></i> Cybersecurity Resume
+                            </span>
+                            <a id="resumeDownloadBtn" href="Resumes/AyushVelhal_CybersecurityResumeJune.pdf" download class="btn btn-primary resume-dl-btn">
+                                <i class="fas fa-download"></i> Download Resume
+                            </a>
+                        </div>
+                        <iframe id="resumeEmbed" src="Resumes/AyushVelhal_CybersecurityResumeJune.pdf" width="100%" height="820px" style="border:none; display:block;"></iframe>
                     </div>
-                    
+
                     <div class="resume-sidebar">
                         <div class="resume-quick-info">
                             <h4>Quick Info</h4>
@@ -908,17 +926,15 @@
                                 <span>PDF Format</span>
                             </div>
                             <div class="quick-info-item">
-                                <i class="fas fa-download"></i>
-                                <a href="Ayush Velhal Resume.pdf" download class="download-link">
-                                    <span>Download Resume</span>
-                                </a>
+                                <i class="fas fa-tag"></i>
+                                <span id="quickInfoTrack">Cybersecurity Resume</span>
                             </div>
                             <div class="quick-info-item">
                                 <i class="fas fa-calendar"></i>
-                                <span>Updated March 2026</span>
+                                <span id="quickInfoDate">Updated June 2026</span>
                             </div>
                         </div>
-                        
+
                         <div class="resume-highlights">
                             <h4>Highlights</h4>
                             <div class="highlight-item">
@@ -950,7 +966,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="resume-contact-cta">
                             <h4>Let's Connect</h4>
                             <p>Interested in my background? Let's discuss opportunities.</p>
