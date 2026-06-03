@@ -5,6 +5,111 @@ let particles = [];
 let mouseX = 0;
 let mouseY = 0;
 
+// Project Details Data
+const projectDetails = {
+    resumescanner: {
+        title: 'ResumeScanner',
+        image: 'Projects/FullStack/ResumeScanner/ResumeScanner.png',
+        description: 'ResumeScanner is an end-to-end, AI-powered resume analysis platform that evaluates PDF resumes against modern Applicant Tracking Systems (ATS) and specific job descriptions. It computes a detailed ATS score with breakdowns across skills, experience, projects, and keyword density, then performs role-based keyword matching to highlight gaps and missing terminology. Using the OpenAI GPT-4o API, it generates targeted bullet-point improvements, offers full resume rewrites aligned to a given JD, and calculates job-match alignment as a percentage with clear, actionable recommendations. Users receive a downloadable report and improved resume, while a persistent scan history enables tracking of profile iterations and progress over time.',
+        features: [
+            'PDF resume parsing and analysis against ATS systems',
+            'Detailed scoring with skill, experience, and keyword density breakdowns',
+            'Role-based keyword matching and gap analysis',
+            'GPT-4o powered bullet-point and resume rewrites',
+            'Job match alignment calculations with percentages',
+            'Downloadable analysis reports and improved resume',
+            'Persistent scan history for tracking improvements over time'
+        ],
+        tech: ['React', 'Node.js', 'Express.js', 'TypeScript', 'REST APIs', 'OpenAI API', 'Prompt Engineering', 'PDF Parsing', 'Multer', 'Tailwind CSS', 'Framer Motion', 'ATS Optimization', 'Keyword Matching Algorithms', 'Full-Stack Development', 'Vercel', 'Render'],
+        architecture: 'Built with React (Vite, TypeScript, Tailwind, Framer Motion) on the frontend and Node.js/Express backend leveraging Multer and pdf-parse for file ingestion. Secured with CORS and Helmet, instrumented with Morgan for request logging. Deployed as a production-ready stack across Vercel (frontend) and Render (backend) for scalability and reliability.',
+        demoLink: 'https://www.loom.com/share/cfdde73136f54494a8dc6efc97af6518',
+        githubLink: 'https://github.com/ayush-java/ai-resume-scanner'
+    },
+    tarkai: {
+        title: 'TarkAI - Hackathon Winning Project',
+        image: 'TarkAI.jpeg',
+        description: 'TarkAI is an AI-powered document intelligence platform that helps students, analysts, and investors quickly understand complex company reports and annual filings. It ingests large PDF documents and automatically extracts high-value sections such as risk factors, financial statements, and business overviews, reorganizing them into a navigable, structured view. TarkAI applies NLP and LLM-based summarization to convert dense financial and technical language into concise, human-readable explanations, significantly reducing the time required for due diligence and research. Won 2nd place at HackAI (LTI Mindtree–sponsored hackathon), resulting in a follow-up interview opportunity.',
+        features: [
+            'Large PDF document ingestion and processing',
+            'Automatic extraction of high-value sections (risk factors, financials, business overviews)',
+            'Structured navigation for complex financial documents',
+            'NLP and LLM-based text summarization',
+            'Conversion of dense financial language to human-readable explanations',
+            'Intuitive Streamlit interface for document uploads',
+            'Sectioned insights and targeted summaries',
+            'Fast due diligence and research capabilities'
+        ],
+        tech: ['Python', 'Streamlit', 'AI/ML', 'PDF Processing', 'Natural Language Processing', 'OpenAI API', 'Prompt Engineering', 'Text Summarization', 'Data Extraction', 'User Interface Design', 'AI-Powered Analytics', 'Document Parsing', 'Team Collaboration'],
+        architecture: 'Built as a standalone Python application using Streamlit for the UI layer, with advanced PDF processing libraries for document handling. Integrates with OpenAI API for intelligent summarization and LLM-based text analysis. Designed for rapid iteration and easy deployment.',
+        demoLink: 'https://www.youtube.com/watch?v=ULDonbj5Z2w',
+        githubLink: 'https://github.com/ayush-java/TarkAI-2025'
+    },
+    novasoc: {
+        title: 'NovaSOC',
+        image: 'Projects/Cyber/NovaSOC/SecurityProject1.png',
+        description: 'NovaSOC is an enterprise-style SOC + SIEM + SOAR threat detection platform that simulates real-world cyber operations and automated response workflows. The system ingests live telemetry, classifies attack activity, and surfaces actionable security intelligence through a production-style Streamlit dashboard with interactive analytics, incident monitoring, severity trends, and a global threat map. It includes automated response capabilities such as malicious IP blocking and incident logging, while mapping detections to MITRE ATT&CK tactics for threat intelligence visibility. Built as a full cybersecurity pipeline spanning detection engineering, SIEM-style analytics, and SOAR automation, with cloud-ready deployment for real-time monitoring and demonstration.',
+        features: [
+            'Real-world cyber operations simulation',
+            'Live telemetry ingestion and attack classification',
+            'Production-style Streamlit analytics dashboard',
+            'Interactive visualizations with incident monitoring',
+            'Automated incident response workflows',
+            'Malicious IP blocking and incident logging',
+            'MITRE ATT&CK threat intelligence mapping',
+            'Global threat map visualization',
+            'Severity trends and analytics'
+        ],
+        tech: ['Cybersecurity', 'SOC', 'SIEM', 'SOAR', 'Python', 'Streamlit', 'Plotly', 'PostgreSQL', 'ELK Stack', 'MITRE ATT&CK', 'Threat Detection', 'Incident Response', 'AWS EC2', 'Docker', 'Render'],
+        architecture: 'Deployed on AWS EC2 with containerized Python backend running on Streamlit. PostgreSQL for incident data storage, integrated with ELK Stack for log analysis. Docker for consistent deployment across environments. Real-time monitoring and automated response capabilities built into the SOAR layer.',
+        liveLink: 'http://23.20.45.8:8501',
+        demoLink: 'https://www.loom.com/share/8ba09c1b44544312844e2c3a4c1f96b5',
+        githubLink: 'https://github.com/ayush-java/soc-siem-threat-detection.git'
+    },
+    sentinelzero: {
+        title: 'SentinelZero',
+        image: 'Projects/Cyber/SentinelZero/SentinelZero.png',
+        description: 'SentinelZero is a full-stack cloud security platform designed to simulate modern enterprise security operations and secure application deployment workflows. The platform combines cybersecurity monitoring, authentication security, threat visibility, and cloud infrastructure management into a production-style environment deployed on AWS. Built with a React frontend and Flask backend, SentinelZero demonstrates secure web application architecture, cloud deployment, user authentication, security monitoring, and operational security best practices. The platform incorporates secure login workflows, CAPTCHA-based bot protection, role-based access concepts, cloud-hosted infrastructure, and real-world deployment using Nginx, Gunicorn, and AWS EC2.',
+        features: [
+            'Full-stack cloud security architecture',
+            'Enterprise security operations simulation',
+            'Secure authentication and login workflows',
+            'CAPTCHA-based bot protection',
+            'Role-based access control (RBAC) implementation',
+            'Real-time security monitoring dashboards',
+            'Cloud infrastructure management on AWS',
+            'Production-ready deployment with Nginx and Gunicorn',
+            'Operational security best practices implementation'
+        ],
+        tech: ['Cybersecurity', 'Cloud Security', 'Application Security', 'DevSecOps', 'AWS EC2', 'React', 'Flask', 'Python', 'Nginx', 'Gunicorn', 'Cloudflare', 'Authentication', 'reCAPTCHA', 'Linux', 'Full Stack Development', 'Security Engineering'],
+        architecture: 'React frontend deployed on AWS with Flask backend for API layer. Secured with Cloudflare CDN and reCAPTCHA for bot protection. Nginx and Gunicorn handle reverse proxy and WSGI application serving. Running on AWS EC2 instances with automated security monitoring and operational security pipelines.',
+        liveLink: 'https://sentinelzero.org/',
+        demoLink: 'https://drive.google.com/file/d/1Aj9uH7YNeO7xPedi3bCC1cajCEQVPjVy/view',
+        githubLink: 'https://github.com/ayush-java/sentinelzero-security-platform'
+    },
+    secureshieldai: {
+        title: 'SecureShield AI',
+        image: 'Projects/Cyber/SecureShieldAI/SecureShieldAI.png',
+        description: 'SecureShield AI is an AI-powered application security and SOC monitoring platform that detects, analyzes, and responds to common cyber attacks in real time. The platform combines attack simulation, detection engineering, threat monitoring, incident management, and AI-assisted security analysis into a unified dashboard. SecureShield AI identifies threats such as SQL Injection, Cross-Site Scripting (XSS), brute-force authentication attacks, suspicious login activity, and malicious user behavior while generating actionable security alerts and incident records. Built using React and Flask, the project demonstrates practical skills in application security, SOC operations, threat detection, secure coding, incident response, and AI-assisted cybersecurity automation.',
+        features: [
+            'Real-time attack detection and analysis',
+            'SQL Injection detection and prevention',
+            'XSS (Cross-Site Scripting) detection',
+            'Brute-force authentication attack detection',
+            'Suspicious login activity monitoring',
+            'Malicious user behavior identification',
+            'Actionable security alerts generation',
+            'Incident record management',
+            'AI-powered cybersecurity assistant for alert explanation',
+            'Attack technique and remediation guidance'
+        ],
+        tech: ['Cybersecurity', 'Application Security', 'SOC', 'Threat Detection', 'Incident Response', 'AI Security', 'Detection Engineering', 'SQL Injection Detection', 'XSS Detection', 'Brute Force Detection', 'React', 'Flask', 'Python', 'Security Analytics', 'Security Monitoring', 'SIEM Concepts', 'OWASP', 'Artificial Intelligence', 'Dashboard Development'],
+        architecture: 'React-based frontend with Flask backend for real-time threat detection. Integration with AI/ML models for attack pattern recognition. Python-based detection engines for OWASP attack types. Dashboard aggregates security alerts with machine learning-assisted incident correlation and response suggestions.',
+        demoLink: 'https://drive.google.com/file/d/1dd36FDTcOz0Mx4J0RoM4l4h0s47P7h9u/view',
+        githubLink: 'https://github.com/ayush-java/SecureShieldAI'
+    }
+};
+
+
 // DOM Elements
 const navbar = document.getElementById('navbar');
 const navToggle = document.getElementById('nav-toggle');
@@ -34,6 +139,7 @@ function initializeWebsite() {
     setupAnimations();
     setupMobileMenu();
     setupProjectFilters();
+    setupProjectModal();
     setupCertificationFilters();
     setupSkillBars();
     setupStatsCounter();
@@ -320,6 +426,119 @@ function setupProjectFilters() {
             });
         });
     });
+}
+
+// Project Modal Setup
+function setupProjectModal() {
+    const modal = document.getElementById('projectModal');
+    const closeBtn = document.querySelector('.project-modal-close');
+    const detailsBtns = document.querySelectorAll('.view-details-btn');
+    
+    if (!modal || !closeBtn) return;
+
+    // Open modal on "Details" button click
+    detailsBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const projectId = btn.getAttribute('data-project');
+            openProjectModal(projectId);
+        });
+    });
+
+    // Close modal on X button click
+    closeBtn.addEventListener('click', () => {
+        closeProjectModal();
+    });
+
+    // Close modal when clicking outside content
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            closeProjectModal();
+        }
+    });
+
+    // Close modal on Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            closeProjectModal();
+        }
+    });
+}
+
+function openProjectModal(projectId) {
+    const modal = document.getElementById('projectModal');
+    const project = projectDetails[projectId];
+
+    if (!project || !modal) return;
+
+    // Populate modal content
+    document.getElementById('modalProjectTitle').textContent = project.title;
+    document.getElementById('modalProjectImage').src = project.image;
+    document.getElementById('modalProjectDescription').textContent = project.description;
+
+    // Populate technologies
+    const techContainer = document.getElementById('modalAllTech');
+    techContainer.innerHTML = '';
+    project.tech.forEach(tech => {
+        const tag = document.createElement('span');
+        tag.className = 'tech-tag';
+        tag.textContent = tech;
+        techContainer.appendChild(tag);
+    });
+
+    // Populate features (if available)
+    const featuresSection = document.getElementById('keyFeaturesSection');
+    if (project.features && project.features.length > 0) {
+        const featuresList = document.getElementById('modalKeyFeatures');
+        featuresList.innerHTML = '';
+        project.features.forEach(feature => {
+            const li = document.createElement('li');
+            li.textContent = feature;
+            featuresList.appendChild(li);
+        });
+        featuresSection.style.display = 'block';
+    } else {
+        featuresSection.style.display = 'none';
+    }
+
+    // Populate architecture (if available)
+    const archSection = document.getElementById('architectureSection');
+    if (project.architecture) {
+        document.getElementById('modalArchitecture').textContent = project.architecture;
+        archSection.style.display = 'block';
+    } else {
+        archSection.style.display = 'none';
+    }
+
+    // Set up action buttons
+    const liveLink = document.getElementById('modalLiveLink');
+    const demoLink = document.getElementById('modalDemoLink');
+    const githubLink = document.getElementById('modalGithubLink');
+
+    liveLink.style.display = project.liveLink ? 'flex' : 'none';
+    liveLink.href = project.liveLink || '#';
+
+    demoLink.style.display = project.demoLink ? 'flex' : 'none';
+    demoLink.href = project.demoLink || '#';
+
+    githubLink.href = project.githubLink || '#';
+
+    // Show modal
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+
+    // Smooth scroll to top of modal
+    setTimeout(() => {
+        modal.scrollTop = 0;
+    }, 100);
+}
+
+function closeProjectModal() {
+    const modal = document.getElementById('projectModal');
+    if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
 }
 
 // Certification Filters
