@@ -1451,7 +1451,7 @@ const resumes = [
         id: 'cybersecurity',
         title: 'Cybersecurity Resume',
         icon: 'fas fa-shield-alt',
-        pdf: 'Resumes/AyushVelhal_CybersecurityResumeJune.pdf',
+        pdf: 'Resumes/AyushVelhal_SecurityResume_v2.pdf',
         track: 'Cybersecurity Resume',
         updated: 'Updated June 2026'
     },
@@ -1465,6 +1465,66 @@ const resumes = [
     }
 ];
 
+let resumeLoadTimeoutId;
+
+function setResumeFallbackState(show) {
+    const embed = document.getElementById('resumeEmbed');
+    const fallback = document.getElementById('resumePreviewFallback');
+    if (!embed || !fallback) return;
+
+    if (show) {
+        embed.style.display = 'none';
+        fallback.style.display = 'block';
+    } else {
+        fallback.style.display = 'none';
+        embed.style.display = 'block';
+    }
+}
+
+function loadResumeWithFallback(resume) {
+    const embed = document.getElementById('resumeEmbed');
+    const fallbackBtn = document.getElementById('resumeFallbackDownloadBtn');
+    if (!embed) return;
+
+    console.log('[Resume Viewer] Loading resume:', {
+        selectedResume: resume.id,
+        pdfPath: resume.pdf
+    });
+
+    if (fallbackBtn) {
+        fallbackBtn.href = resume.pdf;
+        fallbackBtn.setAttribute('download', '');
+    }
+
+    if (resumeLoadTimeoutId) {
+        clearTimeout(resumeLoadTimeoutId);
+    }
+
+    setResumeFallbackState(false);
+
+    let hasLoaded = false;
+
+    embed.onload = () => {
+        hasLoaded = true;
+        console.log('[Resume Viewer] PDF loaded successfully:', resume.pdf);
+        setResumeFallbackState(false);
+    };
+
+    embed.onerror = () => {
+        console.log('[Resume Viewer] PDF failed to load:', resume.pdf);
+        setResumeFallbackState(true);
+    };
+
+    embed.src = resume.pdf;
+
+    resumeLoadTimeoutId = setTimeout(() => {
+        if (!hasLoaded) {
+            console.log('[Resume Viewer] PDF load timeout, showing fallback:', resume.pdf);
+            setResumeFallbackState(true);
+        }
+    }, 4500);
+}
+
 function setupResumeFilters() {
     const filterBtns = document.querySelectorAll('.resume-filter-btn');
     if (!filterBtns.length) return;
@@ -1477,26 +1537,21 @@ function setupResumeFilters() {
             switchResume(id);
         });
     });
+
+    switchResume('cybersecurity');
 }
 
 function switchResume(id) {
     const resume = resumes.find(r => r.id === id);
     if (!resume) return;
 
-    const embed = document.getElementById('resumeEmbed');
+    console.log('[Resume Viewer] Selected resume:', resume.id);
+
     const dlBtn = document.getElementById('resumeDownloadBtn');
     const titleEl = document.getElementById('resumeViewerTitle');
     const trackEl = document.getElementById('quickInfoTrack');
     const dateEl = document.getElementById('quickInfoDate');
 
-    if (embed) {
-        embed.style.opacity = '0';
-        embed.style.transition = 'opacity 0.25s ease';
-        setTimeout(() => {
-            embed.src = resume.pdf;
-            embed.style.opacity = '1';
-        }, 200);
-    }
     if (dlBtn) {
         dlBtn.href = resume.pdf;
         dlBtn.setAttribute('download', '');
@@ -1504,6 +1559,8 @@ function switchResume(id) {
     if (titleEl) titleEl.innerHTML = `<i class="${resume.icon}"></i> ${resume.title}`;
     if (trackEl) trackEl.textContent = resume.track;
     if (dateEl) dateEl.textContent = resume.updated;
+
+    loadResumeWithFallback(resume);
 }
 
 function startResumeAnimations() {

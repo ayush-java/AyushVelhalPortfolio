@@ -1842,7 +1842,7 @@ input, textarea, select {
 
 .resume-content {
     display: grid;
-    grid-template-columns: 2fr 1fr;
+    grid-template-columns: 2.3fr 1fr;
     gap: 2rem;
     margin-top: 1.5rem;
 }
@@ -1854,6 +1854,13 @@ input, textarea, select {
     border-radius: 20px;
     overflow: hidden;
     box-shadow: var(--shadow-lg);
+}
+
+#resumeEmbed {
+    width: 100%;
+    min-height: 900px;
+    height: 950px;
+    display: block;
 }
 
 .resume-placeholder {
@@ -2462,6 +2469,12 @@ input, textarea, select {
     .resume-viewer-header {
         flex-direction: column;
         align-items: flex-start;
+    }
+
+    #resumeEmbed {
+        width: 100%;
+        min-height: 620px;
+        height: 700px;
     }
 
     .resume-dl-btn {
