@@ -1451,7 +1451,7 @@ const resumes = [
         id: 'cybersecurity',
         title: 'Cybersecurity Resume',
         icon: 'fas fa-shield-alt',
-        pdf: 'Resumes/AyushVelhal_SecurityResume_v2.pdf',
+        pdf: 'Resumes/SecurityResume_AyushVelhal.pdf',
         track: 'Cybersecurity Resume',
         updated: 'Updated June 2026'
     },
@@ -1465,7 +1465,9 @@ const resumes = [
     }
 ];
 
-let resumeLoadTimeoutId;
+function getResumeViewerSrc(pdfPath) {
+    return `${pdfPath}#toolbar=1&navpanes=0&zoom=page-width`;
+}
 
 function setResumeFallbackState(show) {
     const embed = document.getElementById('resumeEmbed');
@@ -1496,16 +1498,9 @@ function loadResumeWithFallback(resume) {
         fallbackBtn.setAttribute('download', '');
     }
 
-    if (resumeLoadTimeoutId) {
-        clearTimeout(resumeLoadTimeoutId);
-    }
-
     setResumeFallbackState(false);
 
-    let hasLoaded = false;
-
     embed.onload = () => {
-        hasLoaded = true;
         console.log('[Resume Viewer] PDF loaded successfully:', resume.pdf);
         setResumeFallbackState(false);
     };
@@ -1515,14 +1510,7 @@ function loadResumeWithFallback(resume) {
         setResumeFallbackState(true);
     };
 
-    embed.src = resume.pdf;
-
-    resumeLoadTimeoutId = setTimeout(() => {
-        if (!hasLoaded) {
-            console.log('[Resume Viewer] PDF load timeout, showing fallback:', resume.pdf);
-            setResumeFallbackState(true);
-        }
-    }, 4500);
+    embed.src = getResumeViewerSrc(resume.pdf);
 }
 
 function setupResumeFilters() {
